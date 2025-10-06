@@ -3,10 +3,12 @@ let currTimevalue = "";
 const openAlarmBtn = document.querySelector(".alarm-btn .openAlarm");
 const closeAlarmBtn = document.querySelector(".alarm-btn .closeAlarm");
 const setAlarmDiv = document.querySelector(".setAlarm");
-const setAlarmBtn = document.querySelector(".setAlarm button");
+const setAlarmBtn = document.querySelector(".setAlarmBtn");
+const stopAlarmBtn = document.querySelector(".stopAlarmBtn");
 let timeInput = document.getElementById("time-input");
 let alarmTime = "";
 let alarmAudio = new Audio("audio.mp3");
+let alarmInterval;
 
 function updateDate() {
   let date = new Date();
@@ -15,7 +17,7 @@ function updateDate() {
     "Monday",
     "Tuesday",
     "Wednesday",
-    "Thrusday",
+    "Thursday",
     "Friday",
     "Saturday",
   ];
@@ -26,7 +28,7 @@ function updateDate() {
     "April",
     "May",
     "June",
-    "july",
+    "July",
     "August",
     "September",
     "October",
@@ -63,38 +65,92 @@ displayTime();
 setInterval(displayTime, 1000);
 
 openAlarmBtn.addEventListener("click", () => {
-  setAlarmDiv.style.display = "block";
+  setAlarmDiv.style.display = "flex";
 });
+
 closeAlarmBtn.addEventListener("click", () => {
   setAlarmDiv.style.display = "none";
+  timeInput.value = "";
 });
 
 setAlarmBtn.addEventListener("click", () => {
   alarmTime = timeInput.value;
-  setAlarmDiv.style.display = "none";
-  if (alarmTime < currTimevalue) {
-    alert(`Please enter future time current Time is ${currTimevalue}`);
-    timeInput = "";
-  } else {
-    alert("Alarm set for " + alarmTime);
+  if (!alarmTime) {
+    alert("Please select a time for alarm");
+    return;
   }
-  checkAlarm();
+
+  setAlarmDiv.style.display = "none";
+
+  let [alarmHours, alarmMinutes] = alarmTime.split(":");
+  alarmHours = parseInt(alarmHours);
+  alarmMinutes = parseInt(alarmMinutes);
+
+  let currentDate = new Date();
+  let currentHours = currentDate.getHours();
+  let currentMinutes = currentDate.getMinutes();
+
+  if (
+    alarmHours < currentHours ||
+    (alarmHours === currentHours && alarmMinutes <= currentMinutes)
+  ) {
+    alert(`Please enter future time. Current time is ${currTimevalue}`);
+    timeInput.value = "";
+    alarmTime = "";
+  } else {
+    alert("Alarm set for " + formatTimeForAlert(alarmHours, alarmMinutes));
+    setAlarmBtn.style.display = "none";
+    stopAlarmBtn.style.display = "block";
+    checkAlarm();
+  }
 });
 
+stopAlarmBtn.addEventListener("click", () => {
+  stopAlarm();
+});
+
+function formatTimeForAlert(hours, minutes) {
+  let ampm = hours >= 12 ? "PM" : "AM";
+  return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+}
+
 function checkAlarm() {
-  console.log("Current Time:", currTimevalue);
-  console.log("Alarm Time:", alarmTime);
+  if (alarmInterval) {
+    clearInterval(alarmInterval);
+  }
 
-  const alarmInterval = setInterval(() => {
-    // console.log("Checking alarm...");
+  alarmInterval = setInterval(() => {
+    let currentDate = new Date();
+    let currentHours = currentDate.getHours();
+    let currentMinutes = currentDate.getMinutes();
 
-    if (alarmTime === currTimevalue) {
-      console.log("Wake Up");
+    let [alarmHours, alarmMinutes] = alarmTime.split(":");
+    alarmHours = parseInt(alarmHours);
+    alarmMinutes = parseInt(alarmMinutes);
+
+    if (currentHours === alarmHours && currentMinutes === alarmMinutes) {
+      console.log("Wake Up!");
       alarmAudio.play();
+      alarmAudio.loop = true;
       clearInterval(alarmInterval);
-      alarmTime = "";
-      setAlarmDiv.style.display = "block";
-      timeInput.value = "";
+      alert("Wake Up! Alarm ringing!");
     }
   }, 1000);
+}
+
+function stopAlarm() {
+  if (alarmAudio) {
+    alarmAudio.pause();
+    alarmAudio.currentTime = 0;
+  }
+
+  if (alarmInterval) {
+    clearInterval(alarmInterval);
+  }
+
+  setAlarmBtn.style.display = "block";
+  stopAlarmBtn.style.display = "none";
+  timeInput.value = "";
+  alarmTime = "";
+  setAlarmDiv.style.display = "none";
 }

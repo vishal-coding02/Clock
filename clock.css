@@ -1,93 +1,195 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.clock-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.time-container {
+  font-weight: bold;
+  margin-bottom: 40px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.time-container .weeks {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.time-container #currentTime {
+  font-size: 64px;
+  animation: neon 2s infinite;
+}
+
+.alarm-btn {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.alarm-btn button {
+  padding: 12px 24px;
+  background-color: #e74c3c;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.alarm-btn button:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.setAlarm {
+  margin-top: 3rem;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 400px;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.setAlarm input {
+  padding: 12px 20px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  font-size: 16px;
+}
+
+.setAlarm-buttons {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.setAlarm button {
+  padding: 12px 20px;
+  background-color: #e74c3c;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.setAlarm button:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.stopAlarmBtn {
+  background-color: #27ae60 !important;
+}
+
+.stopAlarmBtn:hover {
+  background-color: #219653 !important;
+}
+
+@keyframes neon {
+  0% {
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
   }
-  
-  .clock-container {
-    display: flex;
+  50% {
+    text-shadow: 0 0 20px rgba(0, 255, 0, 1);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 36px;
+  }
+
+  .time-container #currentTime {
+    font-size: 48px;
+  }
+
+  .time-container .weeks {
+    font-size: 1rem;
+  }
+
+  .alarm-btn {
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #2c3e50;
-    color: #fff;
-    font-family: Arial, sans-serif;
   }
-  
-  h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
+
+  .alarm-btn button {
+    width: 200px;
   }
-  
-  .time-container {
-    font-weight: bold;
-    margin-bottom: 40px;
+
+  .setAlarm {
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    margin-top: 2rem;
   }
-  
-  .time-container .weeks{
-    text-align: center;
-    margin-bottom: 1.5rem;
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 28px;
   }
-  
-  .time-container #currentTime{
-    font-size:  64px;
-    animation: neon 2s infinite;
+
+  .time-container #currentTime {
+    font-size: 36px;
   }
-  
-  .alarm-btn button{
-    padding: 10px 20px;
-    background-color: #e74c3c;
-    font-weight: bold;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+
+  .time-container {
+    padding: 15px;
+    margin-bottom: 30px;
   }
-  
-  .setAlarm{
-    margin-top: 3rem;
-    display: none;
-    justify-content: center;
-    width: 300px;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+
+  .setAlarm {
+    width: 90%;
+    padding: 15px;
   }
-  
-  .setAlarm button{
-    padding: 10px 20px;
-    background-color: #e74c3c;
-    font-weight: bold;
-    color: #fff;
-    margin-left: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+
+  .setAlarm-buttons {
+    flex-direction: column;
   }
-  
-  .setAlarm input{
-    padding: 8px 20px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-  }
-  
-  @keyframes neon {
-    0% {
-      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-    }
-    50% {
-      text-shadow: 0 0 20px rgba(0, 255, 0, 1);
-    }
-    100% {
-      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-    }
-  }
-  
+}
