@@ -7,8 +7,6 @@ const setAlarmBtn = document.querySelector(".setAlarm button");
 let timeInput = document.getElementById("time-input");
 let alarmTime = "";
 let alarmAudio = new Audio("audio.mp3");
-alarmAudio.loop = true; // loop until stopped
-const stopAlarmBtn = document.querySelector(".stopAlarm"); // new button
 
 function updateDate() {
   let date = new Date();
@@ -17,7 +15,7 @@ function updateDate() {
     "Monday",
     "Tuesday",
     "Wednesday",
-    "Thursday",
+    "Thrusday",
     "Friday",
     "Saturday",
   ];
@@ -28,7 +26,7 @@ function updateDate() {
     "April",
     "May",
     "June",
-    "July",
+    "july",
     "August",
     "September",
     "October",
@@ -65,7 +63,7 @@ displayTime();
 setInterval(displayTime, 1000);
 
 openAlarmBtn.addEventListener("click", () => {
-  setAlarmDiv.style.display = "flex";
+  setAlarmDiv.style.display = "block";
 });
 closeAlarmBtn.addEventListener("click", () => {
   setAlarmDiv.style.display = "none";
@@ -75,31 +73,28 @@ setAlarmBtn.addEventListener("click", () => {
   alarmTime = timeInput.value;
   setAlarmDiv.style.display = "none";
   if (alarmTime < currTimevalue) {
-    alert(`Please enter a future time. Current Time is ${currTimevalue}`);
-    timeInput.value = "";
+    alert(`Please enter future time current Time is ${currTimevalue}`);
+    timeInput = "";
   } else {
     alert("Alarm set for " + alarmTime);
-    checkAlarm();
   }
+  checkAlarm();
 });
 
 function checkAlarm() {
+  console.log("Current Time:", currTimevalue);
+  console.log("Alarm Time:", alarmTime);
+
   const alarmInterval = setInterval(() => {
+    // console.log("Checking alarm...");
+
     if (alarmTime === currTimevalue) {
-      alarmAudio.play().catch(() => {
-        alert("Tap anywhere to allow sound 🔊");
-      });
-      document.querySelector(".stopAlarm").style.display = "block";
+      console.log("Wake Up");
+      alarmAudio.play();
       clearInterval(alarmInterval);
+      alarmTime = "";
+      setAlarmDiv.style.display = "block";
+      timeInput.value = "";
     }
   }, 1000);
 }
-
-// ✅ Stop Alarm button logic
-stopAlarmBtn.addEventListener("click", () => {
-  alarmAudio.pause();
-  alarmAudio.currentTime = 0;
-  alarmTime = "";
-  stopAlarmBtn.style.display = "none";
-  alert("Alarm stopped ⏹️");
-});
